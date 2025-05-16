@@ -1,0 +1,13 @@
+import math
+
+def calculate_arc_length(diameter, angle_degrees):
+    radius = diameter / 2
+    arc_length = 2 * math.pi * radius * (angle_degrees / 360)
+    return arc_length
+
+
+
+arc_length = calculate_arc_length(diameter, angle)
+print("Diameter of circle:", diameter)
+print("angle measure:", angle)
+print("Arc Length is: ", arc_length)
