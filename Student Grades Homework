@@ -1,0 +1,9 @@
+def process_student_grades(students):
+    result = []
+    for student in students:
+        sorted_grades = sorted(student['grades'])
+        average = round(sum(sorted_grades) / len(sorted_grades), 2)
+        student['grades'] = sorted_grades
+        student['average'] = average
+        result.append(student)
+    return result
