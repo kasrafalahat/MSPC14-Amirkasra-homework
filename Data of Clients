@@ -1,0 +1,17 @@
+def process_messages(data):
+    lines = data.strip().split('\n')
+    for line in lines:
+        
+        url_part, user_data = line.split(',', 1)
+        
+       
+        username = url_part.split('/')[-1]
+        
+        
+        name, age, status, *_ = user_data.split(',')
+        fullname = (name.replace(" ", "")).lower()
+        age = age.strip()
+        status = status.strip().lower()
+        
+
+        print(f"message:  {username},{fullname},{age},{status}")
