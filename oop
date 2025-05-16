@@ -48,7 +48,7 @@ class FarmStructure:
 
 class Farm:
     def __init__(self):
-        self._animals = []         # encapsulated animal list
+        self._animals = []        
         self._structures = []
 
     def add_animal(self, animal: Animal):
