@@ -1,0 +1,113 @@
+
+class Book:
+    def __init__(self, title, author, isbn):
+        self.title = title
+        self.author = author
+        self.isbn = isbn
+        self.checked_out = False
+
+    def check_out(self):
+        if not self.checked_out:
+            self.checked_out = True
+            print(f"'{self.title}' has been checked out.")
+        else:
+            print(f"'{self.title}' is already checked out.")
+
+    def check_in(self):
+        if self.checked_out:
+            self.checked_out = False
+            print(f"'{self.title}' has been returned.")
+        else:
+            print(f"'{self.title}' is not currently checked out.")
+
+    def display_info(self):
+        status = "Checked Out" if self.checked_out else "Available"
+        print(f"Title: {self.title}, Author: {self.author}, ISBN: {self.isbn}, Status: {status}")
+
+
+class Customer:
+    def __init__(self, name, customer_id):
+        self.name = name
+        self.customer_id = customer_id
+        self.checked_out_books = []
+
+    def check_out_book(self, book):
+        if book not in self.checked_out_books:
+            self.checked_out_books.append(book)
+            print(f"{self.name} checked out '{book.title}'.")
+
+    def check_in_book(self, book):
+        if book in self.checked_out_books:
+            self.checked_out_books.remove(book)
+            print(f"{self.name} returned '{book.title}'.")
+
+    def display_info(self):
+        print(f"Customer: {self.name}, ID: {self.customer_id}")
+        if self.checked_out_books:
+            print("  Checked Out Books:")
+            for book in self.checked_out_books:
+                print(f"   - {book.title} by {book.author}")
+        else:
+            print("  No books currently checked out.")
+
+
+class Library:
+    def __init__(self):
+        self.books = []
+        self.customers = []
+
+    def add_book(self, book):
+        if not any(b.isbn == book.isbn for b in self.books):
+            self.books.append(book)
+            print(f"Book '{book.title}' added to the library.")
+        else:
+            print(f"Book with ISBN {book.isbn} already exists.")
+
+    def add_customer(self, customer):
+        if not any(c.customer_id == customer.customer_id for c in self.customers):
+            self.customers.append(customer)
+            print(f"Customer '{customer.name}' added to the library.")
+        else:
+            print(f"Customer with ID {customer.customer_id} already exists.")
+
+    def find_book(self, isbn):
+        return next((book for book in self.books if book.isbn == isbn), None)
+
+    def find_customer(self, customer_id):
+        return next((cust for cust in self.customers if cust.customer_id == customer_id), None)
+
+    def check_out_book(self, customer_id, isbn):
+        customer = self.find_customer(customer_id)
+        book = self.find_book(isbn)
+
+        if customer and book:
+            if not book.checked_out:
+                book.check_out()
+                customer.check_out_book(book)
+            else:
+                print(f"The book '{book.title}' is already checked out.")
+        else:
+            print("Book or customer not found.")
+
+    def check_in_book(self, customer_id, isbn):
+        customer = self.find_customer(customer_id)
+        book = self.find_book(isbn)
+
+        if customer and book:
+            if book in customer.checked_out_books:
+                book.check_in()
+                customer.check_in_book(book)
+            else:
+                print(f"{customer.name} does not have '{book.title}' checked out.")
+        else:
+            print("Book or customer not found.")
+
+    def display_books(self):
+        print("\nLibrary Books:")
+        for book in self.books:
+            book.display_info()
+
+    def display_customers(self):
+        print("\nLibrary Customers:")
+        for customer in self.customers:
+            customer.display_info()
